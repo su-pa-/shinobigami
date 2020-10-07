@@ -21,6 +21,16 @@
 </head>
 
 <body>
+    <label><input name="school" type="radio">斜歯忍軍</label>
+    <label><input name="school" type="radio">鞍馬神流</label>
+    <label><input name="school" type="radio">ハグレモノ</label>
+    <label><input name="school" type="radio">比良坂機関</label>
+    <label><input name="school" type="radio">私立御斎学園</label>
+    <label><input name="school" type="radio">隠忍の血統</label>
+    <label><input name="school" type="radio" checked>選択なし</label>
+    <p></p>
+    <label><input id="makai" type="checkbox">【魔界工学】</label>
+    <p></p>
     <table>
         <thead>
             <tr>
@@ -197,8 +207,10 @@
     </table>
     <p></p>
     <textarea id="skill-table" cols="80" rows="14" readonly></textarea>
+    <button id="copy">コピー</button>
     <script>
         (() => {
+            const $schools = $('[name=school]');
             const $gaps = $('.gap');
             const $skills = $('.skill');
             const fields = [
@@ -278,7 +290,7 @@
                 '呪術',
             ];
 
-            function click_checkbox() {
+            function change_checkbox() {
                 let str = '';
                 for (let i = 0; i < 6; i++) {
                     str += $gaps.eq(i).prop('checked') ? '￤' : '┃';
@@ -297,9 +309,59 @@
 
                 $('#skill-table').val(str);
             }
+            $gaps.change(change_checkbox);
+            $skills.change(change_checkbox);
+            change_checkbox();
 
-            $('[type=checkbox]').click(click_checkbox);
-            click_checkbox();
+            function change_makai() {
+                $gaps.eq(0).prop('checked', $(this).prop('checked'));
+                change_checkbox();
+            }
+            $('#makai').change(change_makai);
+
+            function change_school() {
+                let check_flgs = [false, false, false, false, false];
+                switch ($schools.index(this)) {
+                    case 0:
+                        // 斜歯忍軍
+                        check_flgs = [true, false, false, false, false];
+                        break;
+                    case 1:
+                        // 鞍馬神流
+                        check_flgs = [true, true, false, false, false];
+                        break;
+                    case 2:
+                        // ハグレモノ
+                        check_flgs = [false, true, true, false, false];
+                        break;
+                    case 3:
+                        // 比良坂機関
+                        check_flgs = [false, false, true, true, false];
+                        break;
+                    case 4:
+                        // 私立御斎学園
+                        check_flgs = [false, false, false, true, true];
+                        break;
+                    case 5:
+                        // 隠忍の血統
+                        check_flgs = [false, false, false, false, true];
+                        break;
+                    case 6:
+                        // 選択なし
+                        break;
+                }
+                for (let i = 0; i < 5; i++) {
+                    $gaps.eq(i + 1).prop('checked', check_flgs[i]);
+                }
+                change_checkbox();
+            }
+            $schools.change(change_school);
+
+            function click_copy() {
+                $('#skill-table').select();
+                document.execCommand('copy');
+            }
+            $('#copy').click(click_copy);
         })();
     </script>
 </body>
