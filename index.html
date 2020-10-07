@@ -196,17 +196,110 @@
         </tbody>
     </table>
     <p></p>
-    <textarea id="skill-table" cols="100" rows="14" readonly></textarea>
+    <textarea id="skill-table" cols="80" rows="14" readonly></textarea>
     <script>
         (() => {
-            $('[type=checkbox]').click(function () {
+            const $gaps = $('.gap');
+            const $skills = $('.skill');
+            const fields = [
+                '　器術　',
+                '　体術　　',
+                '　忍術　　',
+                '　謀術　　　',
+                '　戦術　',
+                '　妖術',
+            ];
+            const skills = [
+                '絡繰術',
+                '騎乗術　',
+                '生存術　',
+                '医術　　　',
+                '兵糧術',
+                '異形化',
+                '火術　',
+                '砲術　　',
+                '潜伏術　',
+                '毒術　　　',
+                '鳥獣術',
+                '召喚術',
+                '水術　',
+                '手裏剣術',
+                '遁走術　',
+                '罠術　　　',
+                '野戦術',
+                '死霊術',
+                '針術　',
+                '手練　　',
+                '盗聴術　',
+                '調査術　　',
+                '地の利',
+                '結界術',
+                '仕込み',
+                '身体操術',
+                '腹話術　',
+                '詐術　　　',
+                '意気　',
+                '封術',
+                '衣装術',
+                '歩法　　',
+                '隠形術　',
+                '対人術　　',
+                '用兵術',
+                '言霊術',
+                '縄術　',
+                '走法　　',
+                '変装術　',
+                '遊芸　　　',
+                '記憶術',
+                '幻術',
+                '登術　',
+                '飛術　　',
+                '香術　　',
+                '九ノ一の術',
+                '見敵術',
+                '瞳術',
+                '拷問術',
+                '骨法術　',
+                '分身の術',
+                '傀儡の術　',
+                '暗号術',
+                '千里眼の術',
+                '壊器術',
+                '刀術　　',
+                '隠蔽術　',
+                '流言の術　',
+                '伝達術',
+                '憑依術',
+                '掘削術',
+                '怪力　　',
+                '第六感　',
+                '経済力　　',
+                '人脈　',
+                '呪術',
+            ];
+
+            function click_checkbox() {
                 let str = '';
-                str += $('.skill[type=checkbox]:checked')
-                    .map(({}, elm) => $(elm).parent().text())
-                    .toArray()
-                    .join(',');
+                for (let i = 0; i < 6; i++) {
+                    str += $gaps.eq(i).prop('checked') ? '￤' : '┃';
+                    str += fields[i];
+                }
+                str += '\n';
+                str += '\n';
+                for (let i = 0; i < 11; i++) {
+                    for (let j = 0; j < 6; j++) {
+                        str += $gaps.eq(j).prop('checked') ? '￤' : '┃';
+                        str += $skills.eq(i * 6 + j).prop('checked') ? '◆' : '　';
+                        str += skills[i * 6 + j];
+                    }
+                    str += '\n';
+                }
+
                 $('#skill-table').val(str);
-            });
+            }
+
+            $('[type=checkbox]').click(click_checkbox);
+            click_checkbox();
         })();
     </script>
 </body>
