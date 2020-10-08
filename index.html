@@ -314,9 +314,21 @@
             $skills.change(output_skill_table);
             output_skill_table();
 
+            function change_gap() {
+                for (let i = 0; i < 11; i++) {
+                    for (let j = 0; j < 6; j++) {
+                        $('td')
+                            .eq(i * 12 + j * 2)
+                            .css('background-color', $gaps.eq(j).prop('checked') ? 'black' : '');
+                    }
+                }
+            }
+            $gaps.change(change_gap);
+
             function change_makai() {
                 $gaps.eq(0).prop('checked', $(this).prop('checked'));
-                change_checkbox();
+                output_skill_table();
+                change_gap();
             }
             $('#makai').change(change_makai);
 
@@ -354,7 +366,8 @@
                 for (let i = 0; i < 5; i++) {
                     $gaps.eq(i + 1).prop('checked', check_flgs[i]);
                 }
-                change_checkbox();
+                output_skill_table();
+                change_gap();
             }
             $schools.change(change_school);
 
@@ -368,6 +381,7 @@
                 $schools.eq(6).prop('checked', true);
                 $('[type=checkbox]').prop('checked', false);
                 output_skill_table();
+                change_gap();
             }
             $('#reset').click(click_reset);
         })();
