@@ -207,7 +207,9 @@
     </table>
     <p></p>
     <textarea id="skill-table" cols="80" rows="14" readonly></textarea>
-    <button id="copy">コピー</button>
+    <button type="button" id="copy">コピー</button>
+    <p></p>
+    <button type="button" id="reset">リセット</button>
     <script>
         (() => {
             const $schools = $('[name=school]');
@@ -290,28 +292,27 @@
                 '呪術',
             ];
 
-            function change_checkbox() {
+            function output_skill_table() {
                 let str = '';
                 for (let i = 0; i < 6; i++) {
                     str += $gaps.eq(i).prop('checked') ? '￤' : '┃';
                     str += fields[i];
                 }
                 str += '\n';
-                str += '\n';
                 for (let i = 0; i < 11; i++) {
+                    str += '\n';
                     for (let j = 0; j < 6; j++) {
                         str += $gaps.eq(j).prop('checked') ? '￤' : '┃';
                         str += $skills.eq(i * 6 + j).prop('checked') ? '◆' : '　';
                         str += skills[i * 6 + j];
                     }
-                    str += '\n';
                 }
 
                 $('#skill-table').val(str);
             }
-            $gaps.change(change_checkbox);
-            $skills.change(change_checkbox);
-            change_checkbox();
+            $gaps.change(output_skill_table);
+            $skills.change(output_skill_table);
+            output_skill_table();
 
             function change_makai() {
                 $gaps.eq(0).prop('checked', $(this).prop('checked'));
@@ -362,6 +363,13 @@
                 document.execCommand('copy');
             }
             $('#copy').click(click_copy);
+
+            function click_reset() {
+                $schools.eq(6).prop('checked', true);
+                $('[type=checkbox]').prop('checked', false);
+                output_skill_table();
+            }
+            $('#reset').click(click_reset);
         })();
     </script>
 </body>
