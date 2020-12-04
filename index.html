@@ -210,6 +210,8 @@
     <button type="button" id="copy">コピー</button>
     <p></p>
     <button type="button" id="reset">リセット</button>
+    <button type="button" id="to_underscore">「　」→「＿」</button>
+    <button type="button" id="to_space">「＿」→「　」</button>
     <script>
         (() => {
             const $schools = $('[name=school]');
@@ -384,6 +386,16 @@
                 change_gap();
             }
             $('#reset').click(click_reset);
+
+            function click_to_underscore() {
+                $('#skill-table').val($('#skill-table').val().replace(/　/g, '＿'));
+            }
+            $('#to_underscore').click(click_to_underscore);
+
+            function click_to_space() {
+                $('#skill-table').val($('#skill-table').val().replace(/＿/g, '　'));
+            }
+            $('#to_space').click(click_to_space);
         })();
     </script>
 </body>
